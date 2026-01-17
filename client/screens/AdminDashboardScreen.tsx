@@ -571,13 +571,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    borderRadius: 12,
     borderWidth: 1,
   },
   studentAvatar: {
     width: 52,
     height: 52,
-    borderRadius: 26,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
     marginRight: Spacing.md,
@@ -587,7 +587,8 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   studentName: {
-    fontWeight: "600",
+    fontWeight: "700",
+    fontSize: 16,
   },
   studentActions: {
     alignItems: "flex-end",
@@ -595,8 +596,8 @@ const styles = StyleSheet.create({
   },
   statusBadge: {
     paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs,
-    borderRadius: BorderRadius.xs,
+    paddingVertical: 4,
+    borderRadius: 8,
   },
   deleteButton: {
     padding: Spacing.xs,
@@ -612,6 +613,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     marginBottom: Spacing.sm,
+    fontWeight: "700",
   },
   emptySubtitle: {
     textAlign: "center",
@@ -648,26 +650,30 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   label: {
-    fontWeight: "500",
+    fontWeight: "600",
+    fontSize: 14,
     marginLeft: Spacing.xs,
+    color: "#1a1a1a",
   },
   modalInput: {
-    height: Spacing.inputHeight,
-    borderRadius: BorderRadius.sm,
+    height: 60,
+    borderRadius: 12,
     borderWidth: 1,
     paddingHorizontal: Spacing.lg,
-    fontSize: 16,
+    fontSize: 18,
+    backgroundColor: "#f8f9fa",
+    ...({ outlineStyle: "none" } as any),
   },
   submitButton: {
-    height: Spacing.buttonHeight,
-    borderRadius: BorderRadius.sm,
+    height: 56,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Spacing.lg,
+    marginTop: Spacing.xl,
   },
   submitButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "700",
   },
 });
