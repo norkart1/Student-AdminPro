@@ -96,10 +96,10 @@ export default function StudentLoginScreen() {
         <View
           style={[
             styles.iconContainer,
-            { backgroundColor: Colors.light.primary + "15" },
+            { backgroundColor: "#FEF2E8" },
           ]}
         >
-          <Feather name="user" size={40} color={Colors.light.primary} />
+          <Feather name="book-open" size={40} color="#E67E22" />
         </View>
         <ThemedText type="h2" style={styles.title}>
           Student Login
@@ -119,14 +119,14 @@ export default function StudentLoginScreen() {
               styles.inputContainer,
               {
                 backgroundColor: theme.inputBackground,
-                borderColor: studentIdFocused ? Colors.light.primary : theme.border,
+                borderColor: studentIdFocused ? "#E67E22" : theme.border,
               },
             ]}
           >
             <Feather
-              name="hash"
+              name="user"
               size={20}
-              color={studentIdFocused ? Colors.light.primary : theme.textSecondary}
+              color={studentIdFocused ? "#E67E22" : theme.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
@@ -153,14 +153,14 @@ export default function StudentLoginScreen() {
               styles.inputContainer,
               {
                 backgroundColor: theme.inputBackground,
-                borderColor: passwordFocused ? Colors.light.primary : theme.border,
+                borderColor: passwordFocused ? "#E67E22" : theme.border,
               },
             ]}
           >
             <Feather
               name="lock"
               size={20}
-              color={passwordFocused ? Colors.light.primary : theme.textSecondary}
+              color={passwordFocused ? "#E67E22" : theme.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
@@ -196,7 +196,7 @@ export default function StudentLoginScreen() {
           disabled={isLoading}
           style={[
             styles.loginButton,
-            { backgroundColor: Colors.light.primary, opacity: isLoading ? 0.7 : 1 },
+            { backgroundColor: "#1B7340", opacity: isLoading ? 0.7 : 1 },
             animatedButtonStyle,
           ]}
           testID="button-login"
@@ -322,7 +322,6 @@ const styles = StyleSheet.create({
     color: "#1B7340",
     fontSize: 16,
     fontWeight: "600",
-    textDecorationLine: "underline",
   },
   legalLinks: {
     flexDirection: "row",

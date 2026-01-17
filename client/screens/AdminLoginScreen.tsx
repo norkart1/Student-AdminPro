@@ -96,10 +96,10 @@ export default function AdminLoginScreen() {
         <View
           style={[
             styles.iconContainer,
-            { backgroundColor: Colors.light.accent + "20" },
+            { backgroundColor: "#FEF2E8" },
           ]}
         >
-          <Feather name="shield" size={40} color={Colors.light.accent} />
+          <Feather name="shield" size={40} color="#E67E22" />
         </View>
         <ThemedText type="h2" style={styles.title}>
           Admin Portal
@@ -119,14 +119,14 @@ export default function AdminLoginScreen() {
               styles.inputContainer,
               {
                 backgroundColor: theme.inputBackground,
-                borderColor: usernameFocused ? Colors.light.accent : theme.border,
+                borderColor: usernameFocused ? "#E67E22" : theme.border,
               },
             ]}
           >
             <Feather
               name="user"
               size={20}
-              color={usernameFocused ? Colors.light.accent : theme.textSecondary}
+              color={usernameFocused ? "#E67E22" : theme.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
@@ -153,14 +153,14 @@ export default function AdminLoginScreen() {
               styles.inputContainer,
               {
                 backgroundColor: theme.inputBackground,
-                borderColor: passwordFocused ? Colors.light.accent : theme.border,
+                borderColor: passwordFocused ? "#E67E22" : theme.border,
               },
             ]}
           >
             <Feather
               name="lock"
               size={20}
-              color={passwordFocused ? Colors.light.accent : theme.textSecondary}
+              color={passwordFocused ? "#E67E22" : theme.textSecondary}
               style={styles.inputIcon}
             />
             <TextInput
@@ -196,7 +196,7 @@ export default function AdminLoginScreen() {
           disabled={isLoading}
           style={[
             styles.loginButton,
-            { backgroundColor: Colors.light.accent, opacity: isLoading ? 0.7 : 1 },
+            { backgroundColor: "#1B7340", opacity: isLoading ? 0.7 : 1 },
             animatedButtonStyle,
           ]}
           testID="button-login"
