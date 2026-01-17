@@ -11,8 +11,10 @@ const ADMIN_PASSWORD = "12345";
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/admin/login", async (req, res) => {
     try {
+      console.log("Admin login request received:", req.body);
       const parsed = loginSchema.safeParse(req.body);
       if (!parsed.success) {
+        console.log("Login schema validation failed:", parsed.error);
         return res.status(400).json({ message: fromError(parsed.error).toString() });
       }
 
@@ -22,6 +24,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         let admin = await storage.getAdminByUsername(username);
         
         if (!admin) {
+          console.log("Creating default admin record");
           admin = await storage.createAdmin({
             username: ADMIN_USERNAME,
             password: ADMIN_PASSWORD,
@@ -29,6 +32,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
         }
 
+        console.log("Admin login successful for:", username);
         return res.json({
           message: "Login successful",
           admin: {
@@ -39,6 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      console.log("Invalid credentials for:", username);
       return res.status(401).json({ message: "Invalid credentials" });
     } catch (error) {
       console.error("Admin login error:", error);

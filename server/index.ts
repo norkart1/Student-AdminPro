@@ -161,18 +161,35 @@ function serveLandingPage({
 }
 
 function configureExpoAndLanding(app: express.Application) {
-  const templatePath = path.resolve(
-    process.cwd(),
-    "server",
-    "templates",
-    "landing-page.html",
-  );
-  const landingPageTemplate = fs.readFileSync(templatePath, "utf-8");
+  // Use a fallback template if the file doesn't exist
+  let landingPageTemplate = "";
+  try {
+    const templatePath = path.resolve(
+      process.cwd(),
+      "server",
+      "templates",
+      "landing-page.html",
+    );
+    landingPageTemplate = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    console.warn("Landing page template not found, using minimal fallback");
+    landingPageTemplate = `
+      <!DOCTYPE html>
+      <html>
+        <head><title>APP_NAME_PLACEHOLDER</title></head>
+        <body>
+          <h1>APP_NAME_PLACEHOLDER</h1>
+          <a href="EXPS_URL_PLACEHOLDER">Open in Expo Go</a>
+        </body>
+      </html>
+    `;
+  }
   const appName = getAppName();
 
   log("Serving static Expo files with dynamic manifest routing");
 
   app.use((req: Request, res: Response, next: NextFunction) => {
+    // API requests should skip the landing page/manifest logic
     if (req.path.startsWith("/api")) {
       return next();
     }
