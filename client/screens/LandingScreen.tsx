@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Feather } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,7 +14,7 @@ import Animated, {
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Colors } from "@/constants/theme";
+import { Spacing, BorderRadius } from "@/constants/theme";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -23,7 +24,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export default function LandingScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const buttonScale = useSharedValue(1);
 
   const animatedButtonStyle = useAnimatedStyle(() => ({
@@ -48,7 +49,7 @@ export default function LandingScreen() {
         style={[
           styles.content,
           {
-            paddingTop: insets.top + 60,
+            paddingTop: insets.top + 40,
             paddingBottom: insets.bottom + 40,
           },
         ]}
@@ -57,18 +58,11 @@ export default function LandingScreen() {
           entering={FadeInDown.delay(100).duration(600)}
           style={styles.illustrationContainer}
         >
-          <View
-            style={[
-              styles.illustrationBackground,
-              { backgroundColor: isDark ? "#2A2C2E" : "#FDF6E3" },
-            ]}
-          >
-            <Image
-              source={require("../../assets/images/welcome-illustration.png")}
-              style={styles.illustration}
-              resizeMode="contain"
-            />
-          </View>
+          <Image
+            source={require("../../assets/images/masjid-illustration.png")}
+            style={styles.illustration}
+            resizeMode="contain"
+          />
         </Animated.View>
 
         <Animated.View
@@ -76,17 +70,20 @@ export default function LandingScreen() {
           style={styles.textContainer}
         >
           <ThemedText type="h1" style={styles.title}>
-            Innovative learning
+            Welcome to{" "}
+            <ThemedText type="h1" style={styles.titleAccent}>
+              JDSA
+            </ThemedText>
           </ThemedText>
-          <ThemedText type="h1" style={[styles.title, { color: Colors.light.accent }]}>
-            modern learner
+          <ThemedText type="h1" style={styles.titleAccent}>
+            Administrator App
           </ThemedText>
-          <ThemedText
-            type="body"
-            style={[styles.subtitle, { color: theme.textSecondary }]}
-          >
-            Manage your educational journey with ease. Access grades, schedules, and stay connected.
-          </ThemedText>
+          
+          <View style={styles.dotsContainer}>
+            <View style={[styles.dot, { backgroundColor: theme.textSecondary + "40" }]} />
+            <View style={[styles.dotActive, { backgroundColor: theme.textSecondary }]} />
+            <View style={[styles.dot, { backgroundColor: theme.textSecondary + "40" }]} />
+          </View>
         </Animated.View>
 
         <Animated.View
@@ -103,9 +100,8 @@ export default function LandingScreen() {
             ]}
             testID="button-get-started"
           >
-            <View style={styles.buttonInner}>
-              <ThemedText style={styles.buttonText}>Let's go</ThemedText>
-            </View>
+            <ThemedText style={styles.buttonText}>Find Your Account</ThemedText>
+            <Feather name="arrow-right" size={20} color="#FFFFFF" />
           </AnimatedPressable>
         </Animated.View>
       </View>
@@ -126,19 +122,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    maxHeight: 360,
-  },
-  illustrationBackground: {
-    width: "100%",
-    aspectRatio: 1,
-    borderRadius: BorderRadius["2xl"],
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+    maxHeight: 400,
   },
   illustration: {
-    width: "90%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
   },
   textContainer: {
     paddingVertical: Spacing["2xl"],
@@ -146,37 +134,43 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    marginBottom: Spacing.xs,
   },
-  subtitle: {
+  titleAccent: {
     textAlign: "center",
-    marginTop: Spacing.lg,
-    paddingHorizontal: Spacing.lg,
+    color: "#1B7340",
+  },
+  dotsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.sm,
+    marginTop: Spacing.xl,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  dotActive: {
+    width: 24,
+    height: 8,
+    borderRadius: 4,
   },
   buttonContainer: {
     paddingBottom: Spacing.xl,
   },
   button: {
-    borderRadius: BorderRadius.lg,
-    overflow: "hidden",
-    backgroundColor: "#8B1538",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  buttonInner: {
-    paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing["3xl"],
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "linear-gradient(180deg, #C41E3A 0%, #8B1538 100%)",
+    gap: Spacing.md,
+    height: 56,
+    borderRadius: BorderRadius.sm,
+    backgroundColor: "#1B7340",
   },
   buttonText: {
     color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: "700",
-    letterSpacing: 0.5,
+    fontWeight: "600",
   },
 });
