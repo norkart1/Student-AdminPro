@@ -1,7 +1,6 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { ensureAdmin } from "./seed";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -248,8 +247,6 @@ function setupErrorHandler(app: express.Application) {
   setupBodyParsing(app);
   setupRequestLogging(app);
 
-  await ensureAdmin();
-
   configureExpoAndLanding(app);
 
   const server = await registerRoutes(app);
@@ -264,7 +261,7 @@ function setupErrorHandler(app: express.Application) {
       reusePort: true,
     },
     () => {
-      log(`express server serving on port ${port}`);
+      log(\`express server serving on port \${port}\`);
     },
   );
 })();

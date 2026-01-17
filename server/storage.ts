@@ -1,105 +1,80 @@
-import { Admin, Student } from "./mongodb";
-import mongoose from "mongoose";
-import type { Admin as AdminType, InsertAdmin, Student as StudentType, InsertStudent, UpdateStudent } from "@shared/schema";
-
-if (!process.env.MONGODB_URI) {
-  throw new Error("MONGODB_URI is not set");
-}
-
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-  console.log("Connected to MongoDB");
-}).catch((err) => {
-  console.error("MongoDB connection error:", err);
-});
+import { admins, students, type Admin, type InsertAdmin, type Student, type InsertStudent, type UpdateStudent } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getAdmin(id: string): Promise<AdminType | undefined>;
-  getAdminByUsername(username: string): Promise<AdminType | undefined>;
-  createAdmin(admin: InsertAdmin): Promise<AdminType>;
+  getAdmin(id: number): Promise<Admin | undefined>;
+  getAdminByUsername(username: string): Promise<Admin | undefined>;
+  createAdmin(admin: InsertAdmin): Promise<Admin>;
   
-  getStudent(id: string): Promise<StudentType | undefined>;
-  getStudentByStudentId(studentId: string): Promise<StudentType | undefined>;
-  getStudentByEmail(email: string): Promise<StudentType | undefined>;
-  getAllStudents(): Promise<StudentType[]>;
-  createStudent(student: InsertStudent): Promise<StudentType>;
-  updateStudent(id: string, data: UpdateStudent): Promise<StudentType | undefined>;
-  deleteStudent(id: string): Promise<boolean>;
+  getStudent(id: number): Promise<Student | undefined>;
+  getStudentByStudentId(studentId: string): Promise<Student | undefined>;
+  getStudentByEmail(email: string): Promise<Student | undefined>;
+  getAllStudents(): Promise<Student[]>;
+  createStudent(student: InsertStudent): Promise<Student>;
+  updateStudent(id: number, data: UpdateStudent): Promise<Student | undefined>;
+  deleteStudent(id: number): Promise<boolean>;
 }
 
-export class MongoStorage implements IStorage {
-  async getAdmin(id: string): Promise<AdminType | undefined> {
-    const admin = await Admin.findById(id);
-    return admin ? this.mapAdmin(admin) : undefined;
+export class DatabaseStorage implements IStorage {
+  async getAdmin(id: number): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.id, id));
+    return admin || undefined;
   }
 
-  async getAdminByUsername(username: string): Promise<AdminType | undefined> {
-    const admin = await Admin.findOne({ username });
-    return admin ? this.mapAdmin(admin) : undefined;
+  async getAdminByUsername(username: string): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.username, username));
+    return admin || undefined;
   }
 
-  async createAdmin(insertAdmin: InsertAdmin): Promise<AdminType> {
-    const admin = new Admin(insertAdmin);
-    await admin.save();
-    return this.mapAdmin(admin);
+  async createAdmin(insertAdmin: InsertAdmin): Promise<Admin> {
+    const [admin] = await db
+      .insert(admins)
+      .values(insertAdmin)
+      .returning();
+    return admin;
   }
 
-  async getStudent(id: string): Promise<StudentType | undefined> {
-    const student = await Student.findById(id);
-    return student ? this.mapStudent(student) : undefined;
+  async getStudent(id: number): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.id, id));
+    return student || undefined;
   }
 
-  async getStudentByStudentId(studentId: string): Promise<StudentType | undefined> {
-    const student = await Student.findOne({ studentId });
-    return student ? this.mapStudent(student) : undefined;
+  async getStudentByStudentId(studentId: string): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.studentId, studentId));
+    return student || undefined;
   }
 
-  async getStudentByEmail(email: string): Promise<StudentType | undefined> {
-    const student = await Student.findOne({ email });
-    return student ? this.mapStudent(student) : undefined;
+  async getStudentByEmail(email: string): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.email, email));
+    return student || undefined;
   }
 
-  async getAllStudents(): Promise<StudentType[]> {
-    const students = await Student.find();
-    return students.map(s => this.mapStudent(s));
+  async getAllStudents(): Promise<Student[]> {
+    return await db.select().from(students);
   }
 
-  async createStudent(insertStudent: InsertStudent): Promise<StudentType> {
-    const student = new Student(insertStudent);
-    await student.save();
-    return this.mapStudent(student);
+  async createStudent(insertStudent: InsertStudent): Promise<Student> {
+    const [student] = await db
+      .insert(students)
+      .values(insertStudent)
+      .returning();
+    return student;
   }
 
-  async updateStudent(id: string, data: UpdateStudent): Promise<StudentType | undefined> {
-    const student = await Student.findByIdAndUpdate(id, { ...data }, { new: true });
-    return student ? this.mapStudent(student) : undefined;
+  async updateStudent(id: number, data: UpdateStudent): Promise<Student | undefined> {
+    const [student] = await db
+      .update(students)
+      .set({ ...data })
+      .where(eq(students.id, id))
+      .returning();
+    return student || undefined;
   }
 
-  async deleteStudent(id: string): Promise<boolean> {
-    await Student.findByIdAndDelete(id);
+  async deleteStudent(id: number): Promise<boolean> {
+    await db.delete(students).where(eq(students.id, id));
     return true;
   }
-
-  private mapAdmin(doc: any): AdminType {
-    return {
-      id: doc._id.toString(),
-      username: doc.username,
-      password: doc.password,
-      name: doc.name,
-    };
-  }
-
-  private mapStudent(doc: any): StudentType {
-    return {
-      id: doc._id.toString(),
-      studentId: doc.studentId,
-      password: doc.password,
-      name: doc.name,
-      email: doc.email,
-      phone: doc.phone || null,
-      age: doc.age || null,
-      isActive: doc.isActive,
-    };
-  }
 }
 
-export const storage = new MongoStorage();
+export const storage = new DatabaseStorage();

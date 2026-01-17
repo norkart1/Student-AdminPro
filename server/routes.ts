@@ -24,7 +24,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         let admin = await storage.getAdminByUsername(username);
         
         if (!admin) {
-          console.log("Creating default admin record in MongoDB");
+          console.log("Creating default admin record");
           admin = await storage.createAdmin({
             username: ADMIN_USERNAME,
             password: ADMIN_PASSWORD,
