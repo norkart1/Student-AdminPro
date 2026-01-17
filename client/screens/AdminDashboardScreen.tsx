@@ -430,57 +430,64 @@ export default function AdminDashboardScreen() {
           styles.header,
           {
             paddingTop: headerHeight + Spacing.md,
-            backgroundColor: theme.backgroundRoot,
           },
         ]}
       >
         <View>
-          <ThemedText type="small" style={{ color: theme.textSecondary }}>
-            Welcome back,
+          <ThemedText type="body" style={{ color: theme.textSecondary, fontSize: 16 }}>
+            Hi <ThemedText style={{ color: "#E67E22", fontWeight: "700" }}>{admin?.name || "Admin"}</ThemedText>
           </ThemedText>
-          <ThemedText type="h2">{admin?.name || "Admin"}</ThemedText>
+          <ThemedText type="small" style={{ color: theme.textSecondary }}>
+            Let's manage something new today!
+          </ThemedText>
         </View>
-        <Pressable onPress={handleLogout} style={styles.logoutIcon}>
-          <Feather name="log-out" size={22} color={Colors.light.error} />
-        </Pressable>
+        <View style={styles.headerRight}>
+          <Image
+            source={{ uri: "https://i.pravatar.cc/150?u=" + (admin?.id || "admin") }}
+            style={styles.profileImage}
+          />
+          <View style={styles.onlineBadge} />
+        </View>
       </View>
 
-      <Animated.View
-        entering={FadeInDown.delay(100).duration(500)}
-        style={styles.statsContainer}
-      >
-        <View
-          style={[
-            styles.statCard,
-            { backgroundColor: Colors.light.primary + "15" },
-          ]}
-        >
-          <Feather name="users" size={24} color={Colors.light.primary} />
-          <ThemedText type="h2" style={{ color: Colors.light.primary }}>
-            {students.length}
-          </ThemedText>
-          <ThemedText type="small" style={{ color: Colors.light.primary }}>
-            Total Students
-          </ThemedText>
+      <View style={styles.quickActions}>
+        {[
+          { icon: "bell", color: "#FF6B6B" },
+          { icon: "star", color: "#FFD93D" },
+          { icon: "gift", color: "#6BCB77" },
+          { icon: "heart", color: "#4D96FF" },
+        ].map((item, i) => (
+          <View key={i} style={[styles.actionCircle, { borderColor: item.color + "40" }]}>
+            <View style={[styles.actionInner, { backgroundColor: item.color + "15" }]}>
+              <Feather name={item.icon as any} size={20} color={item.color} />
+            </View>
+          </View>
+        ))}
+      </View>
+
+      <View style={styles.bannerContainer}>
+        <View style={styles.banner}>
+          <View style={styles.bannerText}>
+            <ThemedText type="h3" style={{ color: "#2C3E50", marginBottom: 8 }}>
+              Manage your students effectively
+            </ThemedText>
+            <Pressable style={styles.bannerButton}>
+              <ThemedText style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 14 }}>
+                View Report
+              </ThemedText>
+            </Pressable>
+          </View>
+          <View style={styles.bannerImageContainer}>
+            <Feather name="book-open" size={60} color="#E67E22" />
+          </View>
         </View>
-        <View
-          style={[
-            styles.statCard,
-            { backgroundColor: Colors.light.success + "15" },
-          ]}
-        >
-          <Feather name="user-check" size={24} color={Colors.light.success} />
-          <ThemedText type="h2" style={{ color: Colors.light.success }}>
-            {students.filter((s) => s.isActive).length}
-          </ThemedText>
-          <ThemedText type="small" style={{ color: Colors.light.success }}>
-            Active
-          </ThemedText>
-        </View>
-      </Animated.View>
+      </View>
 
       <View style={styles.listHeader}>
-        <ThemedText type="h3">Students</ThemedText>
+        <ThemedText type="h3" style={{ fontSize: 20 }}>Students</ThemedText>
+        <Pressable>
+          <ThemedText style={{ color: "#E67E22", fontWeight: "600" }}>View all</ThemedText>
+        </Pressable>
       </View>
 
       {isLoading ? (
@@ -501,7 +508,7 @@ export default function AdminDashboardScreen() {
           )}
           contentContainerStyle={[
             styles.listContent,
-            { paddingBottom: insets.bottom + 100 },
+            { paddingBottom: insets.bottom + 120 },
           ]}
           ListEmptyComponent={EmptyState}
           refreshControl={
@@ -515,12 +522,32 @@ export default function AdminDashboardScreen() {
         />
       )}
 
-      <Pressable
-        onPress={() => setShowAddModal(true)}
-        style={[styles.fab, { bottom: insets.bottom + 24 }, Shadows.lg]}
-      >
-        <Feather name="plus" size={28} color="#FFFFFF" />
-      </Pressable>
+      <View style={[styles.footer, { paddingBottom: insets.bottom + 10 }]}>
+        <View style={styles.footerInner}>
+          <Pressable style={styles.footerTab}>
+            <View style={styles.activeTabCircle}>
+              <Feather name="home" size={24} color="#FFFFFF" />
+            </View>
+            <ThemedText type="small" style={{ color: "#E67E22", fontWeight: "600", marginTop: 4 }}>Home</ThemedText>
+          </Pressable>
+          <Pressable style={styles.footerTab}>
+            <Feather name="search" size={24} color={theme.textSecondary} />
+            <ThemedText type="small" style={{ color: theme.textSecondary, marginTop: 4 }}>Search</ThemedText>
+          </Pressable>
+          <Pressable style={styles.footerTab}>
+            <Feather name="book" size={24} color={theme.textSecondary} />
+            <ThemedText type="small" style={{ color: theme.textSecondary, marginTop: 4 }}>Library</ThemedText>
+          </Pressable>
+          <Pressable style={styles.footerTab} onPress={() => setShowAddModal(true)}>
+            <Feather name="plus-circle" size={24} color={theme.textSecondary} />
+            <ThemedText type="small" style={{ color: theme.textSecondary, marginTop: 4 }}>Add</ThemedText>
+          </Pressable>
+          <Pressable style={styles.footerTab} onPress={handleLogout}>
+            <Feather name="log-out" size={24} color={theme.textSecondary} />
+            <ThemedText type="small" style={{ color: theme.textSecondary, marginTop: 4 }}>Exit</ThemedText>
+          </Pressable>
+        </View>
+      </View>
 
       <AddStudentModal
         visible={showAddModal}
@@ -543,6 +570,79 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
     paddingBottom: Spacing.lg,
   },
+  headerRight: {
+    position: "relative",
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+  },
+  onlineBadge: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#6BCB77",
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+  },
+  quickActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: Spacing.xl,
+    marginBottom: Spacing.xl,
+  },
+  actionCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 1,
+    padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  actionInner: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bannerContainer: {
+    paddingHorizontal: Spacing.xl,
+    marginBottom: Spacing.xl,
+  },
+  banner: {
+    backgroundColor: "#FAD390",
+    borderRadius: 24,
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 140,
+  },
+  bannerText: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  bannerButton: {
+    backgroundColor: "#8E44AD",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+    alignSelf: "flex-start",
+  },
+  bannerImageContainer: {
+    width: 100,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   logoutIcon: {
     padding: Spacing.sm,
   },
@@ -560,6 +660,9 @@ const styles = StyleSheet.create({
     gap: Spacing.xs,
   },
   listHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: Spacing.xl,
     marginBottom: Spacing.md,
   },
@@ -571,13 +674,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: Spacing.lg,
-    borderRadius: 12,
-    borderWidth: 1,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: "#FFFFFF",
+    ...Shadows.sm,
   },
   studentAvatar: {
-    width: 52,
-    height: 52,
-    borderRadius: 12,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     marginRight: Spacing.md,
@@ -588,16 +693,17 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 18,
+    color: "#2C3E50",
   },
   studentActions: {
     alignItems: "flex-end",
     gap: Spacing.sm,
   },
   statusBadge: {
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
   },
   deleteButton: {
     padding: Spacing.xs,
@@ -623,15 +729,38 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  fab: {
+  footer: {
     position: "absolute",
-    right: Spacing.xl,
-    width: 60,
-    height: 60,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "transparent",
+    paddingHorizontal: Spacing.xl,
+  },
+  footerInner: {
+    backgroundColor: "#FFFFFF",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingVertical: 12,
     borderRadius: 30,
-    backgroundColor: Colors.light.primary,
+    ...Shadows.lg,
+  },
+  footerTab: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeTabCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#E67E22",
     justifyContent: "center",
     alignItems: "center",
+    ...Shadows.md,
+  },
+  fab: {
+    display: "none",
   },
   modalContainer: {
     flex: 1,
