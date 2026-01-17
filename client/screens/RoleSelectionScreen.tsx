@@ -89,7 +89,7 @@ export default function RoleSelectionScreen() {
         style={[
           styles.content,
           {
-            paddingTop: insets.top + 80,
+            paddingTop: insets.top + 40,
             paddingBottom: insets.bottom + 40,
           },
         ]}
