@@ -66,10 +66,7 @@ export default function StudentLoginScreen() {
       });
       const data = await response.json();
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "StudentDashboard", params: { student: data.student } }],
-      });
+      navigation.replace("StudentDashboard", { student: data.student });
     } catch (error: any) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert("Login Failed", error.message || "Invalid credentials");

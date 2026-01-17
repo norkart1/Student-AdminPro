@@ -65,11 +65,9 @@ export default function AdminLoginScreen() {
         password: password.trim(),
       });
       const data = await response.json();
+      console.log("Login response:", data);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "AdminDashboard", params: { admin: data.admin } }],
-      });
+      navigation.replace("AdminDashboard", { admin: data.admin });
     } catch (error: any) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert("Login Failed", error.message || "Invalid credentials");
