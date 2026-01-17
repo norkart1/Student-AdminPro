@@ -92,3 +92,4 @@ waitForPort = 5000
 
 [userenv.shared]
 DATABASE_URL = "postgresql://neondb_owner:npg_wCZxF8JOU1Ef@ep-steep-art-a168bl50-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+MONGODB_URI = "mongodb+srv://norkart:7nQ6n3jFDudBmQC@navas.ceezf.mongodb.net/setuup?retryWrites=true&w=majority"
