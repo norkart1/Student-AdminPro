@@ -65,7 +65,7 @@ export default function AdminLoginScreen() {
         password: password.trim(),
       });
       const data = await response.json();
-      console.log("Login response:", data);
+      console.log("Admin login data:", data);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.replace("AdminDashboard", { admin: data.admin });
     } catch (error: any) {
