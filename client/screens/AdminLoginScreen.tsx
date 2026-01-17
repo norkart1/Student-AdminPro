@@ -249,22 +249,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   form: {
-    gap: Spacing.lg,
+    gap: Spacing.xl,
   },
   inputGroup: {
     gap: Spacing.sm,
   },
   label: {
-    fontWeight: "500",
+    fontWeight: "600",
+    fontSize: 14,
     marginLeft: Spacing.xs,
+    color: "#1a1a1a",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    height: Spacing.inputHeight,
-    borderRadius: BorderRadius.sm,
-    borderWidth: 1.5,
+    height: 60,
+    borderRadius: 12,
+    borderWidth: 1,
     paddingHorizontal: Spacing.lg,
+    backgroundColor: "#f8f9fa",
   },
   inputIcon: {
     marginRight: Spacing.md,
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     height: 56,
-    borderRadius: BorderRadius.sm,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
     marginTop: Spacing.xl,

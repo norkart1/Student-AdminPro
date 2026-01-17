@@ -209,10 +209,6 @@ export default function StudentLoginScreen() {
         </AnimatedPressable>
 
         <View style={styles.footerLinks}>
-          <ThemedText type="body" style={[styles.footerText, { color: theme.textSecondary }]}>
-            Don't have an account code? Contact administration for assistance.
-          </ThemedText>
-          
           <Pressable 
             onPress={() => navigation.navigate("AdminLogin")}
             style={styles.adminLink}
@@ -261,22 +257,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
   },
   form: {
-    gap: Spacing.lg,
+    gap: Spacing.xl,
   },
   inputGroup: {
     gap: Spacing.sm,
   },
   label: {
-    fontWeight: "500",
+    fontWeight: "600",
+    fontSize: 14,
     marginLeft: Spacing.xs,
+    color: "#1a1a1a",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    height: Spacing.inputHeight,
-    borderRadius: BorderRadius.sm,
-    borderWidth: 1.5,
+    height: 60,
+    borderRadius: 12,
+    borderWidth: 1,
     paddingHorizontal: Spacing.lg,
+    backgroundColor: "#f8f9fa",
   },
   inputIcon: {
     marginRight: Spacing.md,
@@ -288,10 +287,10 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     height: 56,
-    borderRadius: BorderRadius.sm,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Spacing.xl,
+    marginTop: Spacing.lg,
   },
   loginButtonText: {
     color: "#FFFFFF",
@@ -306,7 +305,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   footerLinks: {
-    marginTop: Spacing["2xl"],
+    marginTop: 40,
     alignItems: "center",
     gap: Spacing.xl,
   },
