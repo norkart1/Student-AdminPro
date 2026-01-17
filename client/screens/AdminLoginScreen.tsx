@@ -104,12 +104,6 @@ export default function AdminLoginScreen() {
         <ThemedText type="h2" style={styles.title}>
           Admin Portal
         </ThemedText>
-        <ThemedText
-          type="body"
-          style={[styles.subtitle, { color: theme.textSecondary }]}
-        >
-          Authorized personnel only
-        </ThemedText>
       </Animated.View>
 
       <Animated.View
@@ -277,20 +271,20 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18,
     height: "100%",
   },
   loginButton: {
-    height: Spacing.buttonHeight,
+    height: 56,
     borderRadius: BorderRadius.sm,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Spacing.lg,
+    marginTop: Spacing.xl,
   },
   loginButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "700",
   },
   accessNote: {
     flexDirection: "row",

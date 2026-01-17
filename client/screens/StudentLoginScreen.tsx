@@ -104,12 +104,6 @@ export default function StudentLoginScreen() {
         <ThemedText type="h2" style={styles.title}>
           Student Login
         </ThemedText>
-        <ThemedText
-          type="body"
-          style={[styles.subtitle, { color: theme.textSecondary }]}
-        >
-          Enter your credentials to access your account
-        </ThemedText>
       </Animated.View>
 
       <Animated.View
@@ -214,15 +208,6 @@ export default function StudentLoginScreen() {
           )}
         </AnimatedPressable>
 
-        <Pressable style={styles.forgotPassword}>
-          <ThemedText
-            type="small"
-            style={[styles.forgotPasswordText, { color: Colors.light.primary }]}
-          >
-            Forgot password?
-          </ThemedText>
-        </Pressable>
-
         <View style={styles.footerLinks}>
           <ThemedText type="body" style={[styles.footerText, { color: theme.textSecondary }]}>
             Don't have an account code? Contact administration for assistance.
@@ -298,20 +283,20 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18,
     height: "100%",
   },
   loginButton: {
-    height: Spacing.buttonHeight,
+    height: 56,
     borderRadius: BorderRadius.sm,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Spacing.lg,
+    marginTop: Spacing.xl,
   },
   loginButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "700",
   },
   forgotPassword: {
     alignItems: "center",
