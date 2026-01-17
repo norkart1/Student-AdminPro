@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     height: "100%",
+    outlineStyle: "none",
   },
   loginButton: {
     height: 56,
