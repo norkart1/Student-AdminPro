@@ -1,38 +1,80 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { admins, students, type Admin, type InsertAdmin, type Student, type InsertStudent, type UpdateStudent } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getAdmin(id: string): Promise<Admin | undefined>;
+  getAdminByUsername(username: string): Promise<Admin | undefined>;
+  createAdmin(admin: InsertAdmin): Promise<Admin>;
+  
+  getStudent(id: string): Promise<Student | undefined>;
+  getStudentByStudentId(studentId: string): Promise<Student | undefined>;
+  getStudentByEmail(email: string): Promise<Student | undefined>;
+  getAllStudents(): Promise<Student[]>;
+  createStudent(student: InsertStudent): Promise<Student>;
+  updateStudent(id: string, data: UpdateStudent): Promise<Student | undefined>;
+  deleteStudent(id: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async getAdmin(id: string): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.id, id));
+    return admin || undefined;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getAdminByUsername(username: string): Promise<Admin | undefined> {
+    const [admin] = await db.select().from(admins).where(eq(admins.username, username));
+    return admin || undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async createAdmin(insertAdmin: InsertAdmin): Promise<Admin> {
+    const [admin] = await db
+      .insert(admins)
+      .values(insertAdmin)
+      .returning();
+    return admin;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getStudent(id: string): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.id, id));
+    return student || undefined;
+  }
+
+  async getStudentByStudentId(studentId: string): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.studentId, studentId));
+    return student || undefined;
+  }
+
+  async getStudentByEmail(email: string): Promise<Student | undefined> {
+    const [student] = await db.select().from(students).where(eq(students.email, email));
+    return student || undefined;
+  }
+
+  async getAllStudents(): Promise<Student[]> {
+    return await db.select().from(students);
+  }
+
+  async createStudent(insertStudent: InsertStudent): Promise<Student> {
+    const [student] = await db
+      .insert(students)
+      .values(insertStudent)
+      .returning();
+    return student;
+  }
+
+  async updateStudent(id: string, data: UpdateStudent): Promise<Student | undefined> {
+    const [student] = await db
+      .update(students)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(students.id, id))
+      .returning();
+    return student || undefined;
+  }
+
+  async deleteStudent(id: string): Promise<boolean> {
+    const result = await db.delete(students).where(eq(students.id, id));
+    return true;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
