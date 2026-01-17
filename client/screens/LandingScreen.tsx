@@ -41,7 +41,7 @@ export default function LandingScreen() {
   };
 
   const handleGetStarted = () => {
-    navigation.navigate("RoleSelection");
+    navigation.navigate("StudentLogin");
   };
 
   return (

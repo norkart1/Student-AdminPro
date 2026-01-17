@@ -222,6 +222,27 @@ export default function StudentLoginScreen() {
             Forgot password?
           </ThemedText>
         </Pressable>
+
+        <View style={styles.footerLinks}>
+          <ThemedText type="body" style={[styles.footerText, { color: theme.textSecondary }]}>
+            Don't have an account code? Contact administration for assistance.
+          </ThemedText>
+          
+          <Pressable 
+            onPress={() => navigation.navigate("AdminLogin")}
+            style={styles.adminLink}
+          >
+            <ThemedText style={styles.adminLinkText}>
+              Admin Login
+            </ThemedText>
+          </Pressable>
+
+          <View style={styles.legalLinks}>
+            <ThemedText type="small" style={{ color: theme.textSecondary }}>Privacy Policy</ThemedText>
+            <View style={[styles.dot, { backgroundColor: theme.textSecondary + "40" }]} />
+            <ThemedText type="small" style={{ color: theme.textSecondary }}>Terms of Service</ThemedText>
+          </View>
+        </View>
       </Animated.View>
     </KeyboardAwareScrollViewCompat>
   );
@@ -298,5 +319,35 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontWeight: "500",
+  },
+  footerLinks: {
+    marginTop: Spacing["2xl"],
+    alignItems: "center",
+    gap: Spacing.xl,
+  },
+  footerText: {
+    textAlign: "center",
+    lineHeight: 22,
+    paddingHorizontal: Spacing.xl,
+  },
+  adminLink: {
+    paddingVertical: Spacing.sm,
+  },
+  adminLinkText: {
+    color: "#1B7340",
+    fontSize: 16,
+    fontWeight: "600",
+    textDecorationLine: "underline",
+  },
+  legalLinks: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.md,
+    marginTop: Spacing.sm,
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
   },
 });

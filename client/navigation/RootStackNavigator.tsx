@@ -49,14 +49,9 @@ export default function RootStackNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="RoleSelection"
-        component={RoleSelectionScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
         name="StudentLogin"
         component={StudentLoginScreen}
-        options={{ headerTitle: "Student Login" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AdminLogin"
