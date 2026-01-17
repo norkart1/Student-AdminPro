@@ -100,7 +100,7 @@ export default function LandingScreen() {
             ]}
             testID="button-get-started"
           >
-            <ThemedText style={styles.buttonText}>Find Your Account</ThemedText>
+            <ThemedText style={styles.buttonText}>Get Started</ThemedText>
             <Feather name="arrow-right" size={20} color="#FFFFFF" />
           </AnimatedPressable>
         </Animated.View>
