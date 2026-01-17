@@ -8,12 +8,15 @@ export function getApiUrl(): string {
   let host = process.env.EXPO_PUBLIC_DOMAIN;
 
   if (!host) {
+    // Fallback for development if EXPO_PUBLIC_DOMAIN is not set
+    // In Replit, we can try to construct it or use a relative path
+    if (typeof window !== 'undefined' && window.location.hostname) {
+      return `https://${window.location.hostname}`;
+    }
     throw new Error("EXPO_PUBLIC_DOMAIN is not set");
   }
 
-  let url = new URL(`https://${host}`);
-
-  return url.href;
+  return `https://${host}`;
 }
 
 async function throwIfResNotOk(res: Response) {
