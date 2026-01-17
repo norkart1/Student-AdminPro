@@ -17,6 +17,10 @@ externalPort = 80
 localPort = 8082
 externalPort = 3000
 
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
 [env]
 PORT = "5000"
 
@@ -41,6 +45,10 @@ args = "Start App"
 task = "workflow.run"
 args = "Start Frontend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start Backend"
+
 [[workflows.workflow]]
 name = "Start App"
 author = "agent"
@@ -59,10 +67,13 @@ name = "Start Backend"
 author = "agent"
 mode = "sequential"
 
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run server:dev"
-waitForPort = 5000
+args = "PORT=3000 npm run server:dev"
+waitForPort = 3000
 
 [[workflows.workflow]]
 name = "Start Frontend"
