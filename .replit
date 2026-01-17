@@ -10,15 +10,15 @@ build = ["sh", "-c", "npm run expo:static:build && npm run server:build"]
 run = ["npm", "run", "server:prod"]
 
 [[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
 localPort = 5000
 externalPort = 80
 
 [[ports]]
 localPort = 8082
-externalPort = 3000
-
-[[ports]]
-localPort = 3000
 externalPort = 3000
 
 [env]
@@ -87,3 +87,8 @@ outputType = "webview"
 task = "shell.exec"
 args = "npm run expo:dev"
 waitForPort = 5000
+
+[userenv]
+
+[userenv.shared]
+DATABASE_URL = "postgresql://neondb_owner:npg_wCZxF8JOU1Ef@ep-steep-art-a168bl50-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
